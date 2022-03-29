@@ -59,7 +59,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets: 
-    - ./assets/images/
+    - ./assets/images/.
+
+  fonts:
+    - family: RobotoSlab
+      fonts:
+        - asset: fonts/RobotoSlab/.
 
   # To add assets to your application, add an assets section, like this:
   # assets:

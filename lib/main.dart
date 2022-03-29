@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_pdx/home.dart';
@@ -11,49 +13,124 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final bgColor = const Color(0xFF00bbd3);
+    final bgColor = const Color(0xFF0B4F6C);
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-        home: AnimatedSplashScreen(splash: 
-        Container( 
-                height: 300, 
-                width: 300,
-                child: Image.asset('assets/images/tech_icon_white.png')
-               ),
-        duration: 3500,
-        backgroundColor: bgColor,
-        splashTransition: SplashTransition.fadeTransition,
-        nextScreen: MyHomePage(title: 'TechPDx'),
-      // Center(
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: <Widget>[
-      //         Container( 
-      //           height: 175, 
-      //           width: 175,
-      //           child: Image.asset('assets/images/tech_icon_white.png')
-      //         ),
-      //         Container(
-      //           child: Text ('Splash Screen', style: TextStyle( fontSize: 24, fontWeight: FontWeight.bold)
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ), 
-        )
+      theme: ThemeData(fontFamily: 'RobotoSlab'),
+      home: SplashScreen(),
     );
   }
 }
 
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({ Key? key }) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+
+
+class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(milliseconds: 3000), (){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => WelcomePage()));
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    var scaffold = Scaffold(
+      backgroundColor: Color(0xff0b4f6c),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("assets/images/tech_icon_white.png", height: 125,),
+            SizedBox(height: 20,),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation <Color>(Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+    return scaffold;
+  }
+}
+
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({ Key? key }) : super(key: key);
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xfffbfbff),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset("assets/images/welcome_new.png", height: 650,),
+          Container(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(15),
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  ),
+                primary: Color(0xff0b4f6c),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color(0xff0b4f6c)
+                    )
+                  )
+                ),
+                onPressed: () {
+                  _navigateToNextScreen(context);
+              },
+              child: Text(
+                "GET STARTED",
+                style: TextStyle(fontFamily: 'RobotoSlab'),),
+              ), 
+        ),
+        ],
+      )
+    );
+  }
+}
+
+void _navigateToNextScreen(BuildContext context){
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
+}
+
+
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({ Key? key }) : super(key: key);
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('New Screen')),
+      body: Center(
+        child: Text(
+          'This is a new screen',
+          style: TextStyle(fontSize: 24.0),
+        ),
+      ),
+    );
+  }
+}
